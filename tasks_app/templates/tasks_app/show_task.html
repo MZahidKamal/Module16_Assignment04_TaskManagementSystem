@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+
+{% block page_independent_content %}
+	
+	<p style='margin: 0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:normal;'><strong><span style='font-size: 48px; font-family: "Times New Roman", serif; color: #055D7A;'><em>Tasks Directory</em></span></strong></p>
+	<p style='margin: 0cm;font-size:11.0pt;font-family:"Calibri",sans-serif;line-height:normal;'><strong><span style='font-size: 20px; font-family: "Times New Roman", serif;'>with upcoming schedules and Infos ...</span></strong></p>
+	<br><br>
+	
+	<table class="table table-hover table-responsive">
+		<thead>
+		<tr>
+			<th scope="col"><h5 style="color: #055D7A">Tasks</h5></th>
+			<th scope="col"><h5 style="color: #055D7A">Scheduled On</h5></th>
+			<th scope="col"><h5 style="color: #055D7A">Categories</h5></th>
+			<th scope="col"><h5 style="color: #055D7A">Status</h5></th>
+			<th scope="col"><h5 style="color: #055D7A">Actions</h5></th>
+		</tr>
+		</thead>
+		<tbody class="table-group-divider" style="color: #055D7A">
+		
+		<tr>
+			<td>
+				{% if task.completed %}
+					<h5 style="font-family: 'Times New Roman', sans-serif; opacity: 30%">{{ task.title }}</h5>
+					<p style="font-style: italic; opacity: 30%">{{ task.description | truncatewords:8 }}</p>
+				{% else %}
+					<h5 style="font-family: 'Times New Roman', sans-serif">{{ task.title }}</h5>
+					<p style="font-style: italic">{{ task.description }}</p>
+				{% endif %}
+			</td>
+			<td>{{ task.assign_date }}</td>
+			<td>
+				{% for i in task.category.all %}
+					<small>{{ i.name }}</small><br>
+				{% endfor %}
+			</td>
+			<td>{% if task.completed %}
+				<p>Done</p>
+			{% else %}
+				<p>Scheduled</p>
+			{% endif %} </td>
+			<td>
+
+				{% if not task.completed %}
+					<a href="{% url 'complete_task' task.id %}"><button type="button" class="btn btn-success btn-sm">Completed</button></a><br>
+					<a href="{% url 'edit_task' task.id %}"><button type="button" class="btn btn-primary btn-sm">Edit</button></a><br>
+					<a href="{% url 'delete_task' task.id %}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+				{% else %}
+					<a href="{% url 'delete_task' task.id %}"><button type="button" class="btn btn-danger btn-sm">Delete</button></a>
+				{% endif %}
+
+
+
+			</td>
+		</tr>
+		
+		</tbody>
+	</table>
+
+{% endblock %}
