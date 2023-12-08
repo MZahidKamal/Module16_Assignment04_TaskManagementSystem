@@ -44,7 +44,7 @@
 				{% else %}
 					<p>Scheduled</p>
 				{% endif %} </td>
-				<td>
+				<td style="text-align: center">
 					
 					{% if not each.completed %}
 						<a href="{% url 'complete_task' each.id %}"><button type="button" class="btn btn-success btn-sm">Completed</button></a>
